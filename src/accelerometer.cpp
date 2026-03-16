@@ -1,5 +1,7 @@
 #include "accelerometer.h"
 
+namespace ADXL {
+
 Adafruit_ADXL345_Unified accel = Adafruit_ADXL345_Unified();
 
 //Dane dotyczące akcelerometru
@@ -111,4 +113,5 @@ void initRollingAvg()
         rollingAvg(data);
     }
 
+}
 }

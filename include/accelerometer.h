@@ -4,6 +4,8 @@
 #include <Adafruit_ADXL345_U.h>
 #include <Adafruit_Sensor.h>
 
+namespace ADXL {
+
 // Deklaracje - mówimy kompilatorowi: "Gdzieś tam jest taki obiekt"
 extern Adafruit_ADXL345_Unified accel;
 extern const int numReadings;
@@ -27,4 +29,6 @@ void rollingAvg(accelerometerData &data);
 void printAccelerometerData();
 void initRollingAvg();
 //Koniec
+
+}
 #endif
