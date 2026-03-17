@@ -1,4 +1,4 @@
-# RocketLab Telemetry System 🚀
+# ESP32 Telemetry System 🚀
 
 System zbierania i przesyłania danych telemetrycznych w czasie rzeczywistym, zaprojektowany z myślą o monitorowaniu parametrów lotu rakiet sondujących. Projekt stworzony na potrzeby rekrutacji do koła **PUT RocketLab** - aby sprawdzić się w pracy z wymienionymi w formularzu rekrutacyjnym technologiami.
 
