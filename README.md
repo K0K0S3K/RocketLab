@@ -10,7 +10,7 @@ Głównym zadaniem aplikacji jest agregacja danych z czujników pokładowych i i
 * **Signal Filtering:** Implementacja cyfrowego przetwarzania sygnałów w celu redukcji szumów.
 
 ## 🛠 Stos Technologiczny & Komunikacja
-* **Hardware:** ESP32.
+* **Hardware:** ESP32, BMP280, ADXL345.
 * **Język:** C++ (Object Oriented Programming).
 * **Protokół:** MQTT (PubSubClient).
 * **Magistrala I2C (Inter-Integrated Circuit):** * Wszystkie sensory (BMP280, ADXL345) komunikują się z jednostką centralną za pomocą magistrali I2C.
@@ -40,9 +40,6 @@ W celu zapewnienia wiarygodności telemetrii, projekt wykorzystuje algorytm **pr
 
    1. git clone https://github.com/K0K0S3K/RocketLab
 
-   2. Skonfiguruj dane dostępowe w pliku MQTT.cpp (SSID, Hasło, Broker IP).
+   2. Skonfiguruj dane dostępowe w pliku src/MQTT.cpp (SSID, Hasło, Broker IP).
 
    3. Skompiluj i wgraj program na mikrokontroler
-1. Sklonuj repozytorium:
-   ```bash
-   git clone [https://github.com/K0K0S3K/RocketLab](https://github.com/K0K0S3K/RocketLab)
