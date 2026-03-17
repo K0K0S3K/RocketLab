@@ -12,8 +12,8 @@ Głównym zadaniem aplikacji jest agregacja danych z czujników pokładowych (ci
 * **Modular Sensor Interface:** Abstrakcja warstwy czujników pozwalająca na łatwą rozbudowę.
 
 ## 🛠 Stos Technologiczny
-* **Hardware:** ESP32 / ESP8266 (wsparcie dla architektury Arduino Core).
-* **Język:** C++ (Object Oriented Programming).
+* **Hardware:** ESP32.
+* **Język:** C++.
 * **Protokół:** MQTT (PubSubClient).
 * **Sensory:** BMP280 (ciśnienie/wysokość), ADXL345 (akcelerometr).
 
