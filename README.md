@@ -26,7 +26,7 @@ W celu zapewnienia wiarygodności telemetrii, projekt wykorzystuje algorytm **pr
 * **Optymalizację:** Algorytm działa w oparciu o bufor kołowy, co zapewnia stałą złożoność obliczeniową $O(1)$ dla każdego nowego pomiaru.
 
 ## ⚙️ Sensory
-* **BMP280:** Precyzyjne pomiary ciśnienia atmosferycznego i temperatury (wyznaczanie wysokości barometrycznej).
+* **BMP280:** Precyzyjne pomiary ciśnienia atmosferycznego i temperatury.
 * **ADXL345:** 3-osiowy akcelerometr do monitorowania przeciążeń i orientacji rakiety.
 
 ## 🚀 Szybki Start
