@@ -1,29 +1,48 @@
-# Telemetry System 🚀
+# RocketLab Telemetry System 🚀
 
-System zbierania i przesyłania danych telemetrycznych w czasie rzeczywistym, zaprojektowany z myślą o monitorowaniu parametrów lotu rakiet sondujących. Projekt stworzony na potrzeby rekrutacji do koła PUT RocketLab - aby sprawdzić się w pracy z technologiami wymienionymi w formularzu rekrutacyjny.
+System zbierania i przesyłania danych telemetrycznych w czasie rzeczywistym, zaprojektowany z myślą o monitorowaniu parametrów lotu rakiet sondujących. Projekt stworzony na potrzeby rekrutacji do koła **PUT RocketLab** - aby sprawdzić się w pracy z wymienionymi w formularzu rekrutacyjnym technologiami.
 
 ## 📋 Opis Projektu
-Głównym zadaniem aplikacji jest agregacja danych z czujników pokładowych (ciśnienie, temperatura, orientacja) i ich bezprzewodowa transmisja do stacji naziemnej za pośrednictwem protokołu **MQTT**.
-
-
+Głównym zadaniem aplikacji jest agregacja danych z czujników pokładowych i ich bezprzewodowa transmisja do stacji naziemnej za pośrednictwem protokołu **MQTT**.
 
 ## ✨ Kluczowe Funkcjonalności
 * **Real-time Telemetry:** Przesyłanie danych w formacie JSON do brokera MQTT.
-* **Modular Sensor Interface:** Abstrakcja warstwy czujników pozwalająca na łatwą rozbudowę.
+* **Signal Filtering:** Implementacja cyfrowego przetwarzania sygnałów w celu redukcji szumów.
 
-## 🛠 Stos Technologiczny
+## 🛠 Stos Technologiczny & Komunikacja
 * **Hardware:** ESP32.
-* **Język:** C++.
+* **Język:** C++ (Object Oriented Programming).
 * **Protokół:** MQTT (PubSubClient).
-* **Sensory:** BMP280 (ciśnienie/wysokość), ADXL345 (akcelerometr).
+* **Magistrala I2C (Inter-Integrated Circuit):** * Wszystkie sensory (BMP280, ADXL345) komunikują się z jednostką centralną za pomocą magistrali I2C.
+    * Wykorzystanie wspólnej linii SDA/SCL pozwala na minimalizację okablowania przy zachowaniu pełnej adresowalności urządzeń.
+    * Implementacja obejmuje sprawdzanie dostępności urządzeń na magistrali przy starcie systemu.
+
+## 📊 Przetwarzanie Danych: Średnia Krocząca
+W celu zapewnienia wiarygodności telemetrii, projekt wykorzystuje algorytm **prostej średniej kroczącej (Simple Moving Average - SMA)**. 
+
+**Zastosowanie filtra pozwala na:**
+* **Redukcję szumu:** Wyeliminowanie zakłóceń pomiarowych.
+* **Stabilizację odczytów:** Wygładzenie wykresów wysokości i przyspieszenia.
+* **Optymalizację:** Algorytm działa w oparciu o bufor kołowy, co zapewnia stałą złożoność obliczeniową $O(1)$ dla każdego nowego pomiaru.
+
+## ⚙️ Sensory
+* **BMP280:** Precyzyjne pomiary ciśnienia atmosferycznego i temperatury (wyznaczanie wysokości barometrycznej).
+* **ADXL345:** 3-osiowy akcelerometr do monitorowania przeciążeń i orientacji rakiety.
 
 ## 🚀 Szybki Start
 
 ### Wymagania
-* PlatformIO.
-* Biblioteki: `PubSubClient`, `Adafruit BMP280`, `ArduinoJson`.
+* **Środowisko:** PlatformIO.
+* **Biblioteki:** `PubSubClient`, `Adafruit BMP280`, `Adafruit ADXL345`.
+ ### Instalacja
 
-### Instalacja
+   ```bash
+
+   1. git clone https://github.com/K0K0S3K/RocketLab
+
+   2. Skonfiguruj dane dostępowe w pliku MQTT.cpp (SSID, Hasło, Broker IP).
+
+   3. Skompiluj i wgraj program na mikrokontroler
 1. Sklonuj repozytorium:
    ```bash
-   git clone [https://github.com/K0K0S3K/RocketLab.git](https://github.com/K0K0S3K/RocketLab.git)
+   git clone [https://github.com/K0K0S3K/RocketLab](https://github.com/K0K0S3K/RocketLab)
