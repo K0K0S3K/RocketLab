@@ -86,9 +86,6 @@ namespace BMP
             Adafruit_BMP280::SAMPLING_X16, 
             Adafruit_BMP280::FILTER_X16,   
             Adafruit_BMP280::STANDBY_MS_250);
-
-        Serial.println("BMP280: Tryb Ultra High Resolution aktywowany.");
-
     }
 
     float readAltitude(float zeroLevelhPa)
