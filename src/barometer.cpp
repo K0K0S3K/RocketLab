@@ -1,70 +1,114 @@
 #include "barometer.h"
 
-namespace BMP{
-
-Adafruit_BMP280 bmp;
-
-const int numReadings = 20; 
-double pressureReadings[numReadings];
-int readIndex = 0;
-double pressureMean = 0;
-
-void initBarometer()
+namespace BMP
 {
-    while(!bmp.begin(0x76))
+
+    Adafruit_BMP280 bmp = Adafruit_BMP280();
+
+    const int numReadings = 10;
+    float pressureReadings[numReadings];
+    int readIndex = 0;
+    float pressureMean = 0;
+
+    void initBarometer()
     {
-        Serial.println("Ooops, no BMP280 detected ... Check your wiring!");
-        delay(10);
-    }
-}
+        while (!bmp.begin(0x76))
+        {
+            Serial.println("Nie wykryto BMP280");
+            delay(10);
+        }
 
-void rollingAvg()
-{
-    pressureMean -= pressureReadings[numReadings];
-
-    pressureReadings[numReadings] = bmp.readPressure();
-
-    pressureMean += pressureReadings[numReadings];
-
-    readIndex = (readIndex + 1) % numReadings;
-}
-
-double groundPressure = 0;
-
-void calibrateBarometer()
-{
-    for(int i = 0; i < 15; ++i)
-    {
-        groundPressure += bmp.readPressure();
-        delay(1000);
+        initRollingAvg();
     }
 
-    groundPressure = (groundPressure / 100.0) / 15.0;
-}
+    void rollingAvg(barometerData &data)
+    {
+        pressureMean -= pressureReadings[readIndex];
 
-void printBarometerData()
-{
-    //Serial.print(bmp.readPressure() / 100.0);
-    //Serial.print(",");
-    rollingAvg();
-    Serial.print(pressureMean / (double)numReadings);
-    Serial.print(",");
-    Serial.println(bmp.readTemperature());
-}
+        pressureReadings[readIndex] = data.pressure;
 
-void setupHighPrecisionBMP(Adafruit_BMP280 &bmp) {
-  // Dokumentacja zaleca tryb "Ultra High Resolution" dla najwyższej dokładności[cite: 192].
-  // Konfigurujemy parametry zgodnie z tabelą 7 (Indoor navigation/Elevator)[cite: 326].
+        pressureMean += pressureReadings[readIndex];
 
-  bmp.setSampling(
-    Adafruit_BMP280::MODE_NORMAL,     /* Tryb pracy: Normal (ciągły pomiar) [cite: 181] */
-    Adafruit_BMP280::SAMPLING_X2,     /* Oversampling Temp: x2 (17 bit) [cite: 273, 290] */
-    Adafruit_BMP280::SAMPLING_X16,    /* Oversampling Ciśnienia: x16 (20 bit)  */
-    Adafruit_BMP280::FILTER_X16,      /* Filtr IIR: współczynnik 16 (najsilniejszy) [cite: 317] */
-    Adafruit_BMP280::STANDBY_MS_500
-  );
-  
-  Serial.println("BMP280: Tryb Ultra High Resolution aktywowany.");
-}
+        readIndex = (readIndex + 1) % numReadings;
+    }
+
+    void initRollingAvg()
+    {
+        for (int i = 0; i < numReadings; ++i)
+        {
+            pressureReadings[i] = 0;
+        }
+
+        for (int i = 0; i < numReadings; ++i)
+        {
+            barometerData data = getBarometerData();
+            rollingAvg(data);
+        }
+    }
+
+    float groundPressure = 0;
+
+    void calibrateBarometer()
+    {
+
+        for(int i = 0; i < 50; ++i)
+        {
+            barometerData data = getBarometerData();
+            delay(500);
+        }
+
+        for (int i = 0; i < 30; ++i)
+        {
+            groundPressure += bmp.readPressure();
+            delay(500);
+        }
+
+        groundPressure = (groundPressure / 100.0) / 30.0;
+    }
+
+    void printBarometerData()
+    {
+        barometerData data = getBarometerData();
+        
+        Serial.print(data.pressure);
+        Serial.print(" hPa, ");
+        Serial.print(data.altitude);
+        Serial.print(" m, ");
+        Serial.print(data.temperature);
+        Serial.println(" °C");
+    }
+
+    void setupHighPrecisionBMP(Adafruit_BMP280 &bmp)
+    {
+        bmp.setSampling(
+            Adafruit_BMP280::MODE_NORMAL,  
+            Adafruit_BMP280::SAMPLING_X1,  
+            Adafruit_BMP280::SAMPLING_X16, 
+            Adafruit_BMP280::FILTER_X16,   
+            Adafruit_BMP280::STANDBY_MS_250);
+
+        Serial.println("BMP280: Tryb Ultra High Resolution aktywowany.");
+
+    }
+
+    float readAltitude(float zeroLevelhPa)
+    {
+        float altitude;
+
+        float pressure = pressureMean / (float)numReadings;
+
+        altitude = 44330 * (1.0 - pow(pressure / zeroLevelhPa, 0.1903));
+
+        return altitude;
+    }
+
+    barometerData getBarometerData()
+    {
+        barometerData data = barometerData(bmp.readPressure() / 100.0, bmp.readTemperature(), readAltitude(groundPressure));
+
+        rollingAvg(data);
+
+        return data;
+    }
 
 }

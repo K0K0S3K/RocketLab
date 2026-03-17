@@ -4,19 +4,34 @@
 #include <Adafruit_BMP280.h>
 #include <Adafruit_Sensor.h>
 
-namespace BMP {
+namespace BMP
+{
 
-extern Adafruit_BMP280 bmp;
-extern double groundPressure;
+    struct barometerData
+    {
+        float pressure;
+        float temperature;
+        float altitude;
 
-extern const int numReadings;
-extern double pressureReadings[];
-extern int readIndex;
-extern double pressureMean;
+        barometerData(float p = 0, float t = 0, float a = 0) : pressure(p), temperature(t),altitude(a) {} 
+    };
 
-void initBarometer();
-void printBarometerData();
-void calibrateBarometer();
-void setupHighPrecisionBMP(Adafruit_BMP280 &bmp);
+    extern Adafruit_BMP280 bmp;
+    extern float groundPressure;
+
+    extern const int numReadings;
+    extern float pressureReadings[];
+    extern int readIndex;
+    extern float pressureMean;
+
+    void initBarometer();
+    void printBarometerData();
+    void calibrateBarometer();
+    void setupHighPrecisionBMP(Adafruit_BMP280 &bmp);
+    void rollingAvg(barometerData &data);
+    float readAltitude(float zeroLevelhPa);
+    void initRollingAvg();
+    barometerData getBarometerData();
+
 }
 #endif
