@@ -1,9 +1,9 @@
 # ESP32 Telemetry System 🚀
 
-System zbierania i przesyłania danych telemetrycznych w czasie rzeczywistym, zaprojektowany z myślą o monitorowaniu parametrów lotu rakiet sondujących. Projekt stworzony na potrzeby rekrutacji do koła **PUT RocketLab** - aby sprawdzić się w pracy z wymienionymi w formularzu rekrutacyjnym technologiami.
+System zbierania i przesyłania danych telemetrycznych w czasie rzeczywistym. Projekt stworzony na potrzeby rekrutacji do koła **PUT RocketLab** - aby sprawdzić się w pracy z wymienionymi w formularzu rekrutacyjnym technologiami.
 
 ## 📋 Opis Projektu
-Głównym zadaniem aplikacji jest agregacja danych z czujników pokładowych i ich bezprzewodowa transmisja do stacji naziemnej za pośrednictwem protokołu **MQTT**.
+Głównym zadaniem aplikacji jest agregacja danych z czujników pokładowych i ich bezprzewodowa transmisja za pośrednictwem protokołu **MQTT**.
 
 ## ✨ Kluczowe Funkcjonalności
 * **Real-time Telemetry:** Przesyłanie danych w formacie JSON do brokera MQTT.
@@ -11,7 +11,7 @@ Głównym zadaniem aplikacji jest agregacja danych z czujników pokładowych i i
 
 ## 🛠 Stos Technologiczny & Komunikacja
 * **Hardware:** ESP32, BMP280, ADXL345.
-* **Język:** C++ (Object Oriented Programming).
+* **Język:** C++.
 * **Protokół:** MQTT (PubSubClient).
 * **Magistrala I2C (Inter-Integrated Circuit):** * Wszystkie sensory (BMP280, ADXL345) komunikują się z jednostką centralną za pomocą magistrali I2C.
     * Wykorzystanie wspólnej linii SDA/SCL pozwala na minimalizację okablowania przy zachowaniu pełnej adresowalności urządzeń.
